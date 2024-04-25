@@ -17,7 +17,7 @@ $ ./build.sh && ./upload.sh
 
 (make sure the pico sdk and pico mount path is correct and that the build folder exists)
 
-4. Then view output with UART or USB depending on CMakeLists.txt config using minicom or another serial com viewer
+3. Then view output with UART or USB depending on CMakeLists.txt config using minicom or another serial com viewer
 
 ## TODO:
 - use sensor readings to operate motors
