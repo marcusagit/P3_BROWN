@@ -10,9 +10,13 @@ This project uses a pi pico w to control many motors autonomously using data ret
 - building instructions:
 1. Plug in pico
 2. Run the following to build and upload
+
 $ ./build.sh && ./upload.sh
+
 (this should run cmake and make to build the uf2 binary and upload it to the pico)
+
 (make sure the pico sdk and pico mount path is correct and that the build folder exists)
+
 3. Then view output with UART or USB depending on CMakeLists.txt config using minicom or another serial com viewer
 
 ## TODO:
