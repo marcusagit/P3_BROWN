@@ -1,3 +1,3 @@
 #!/usr/bin/bash
-serial_path=/dev/ttyACM1
-minicom -b 115200 -o -D $serial_path
+serial_path=/dev/ttyUSB0
+sudo minicom -b 115200 -D $serial_path
