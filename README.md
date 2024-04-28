@@ -2,6 +2,8 @@
 
 This project uses a pi pico w to control many motors autonomously using data retrieved by a mpu6050 IMU.
 
+Look at main.c for the entry of the program. Currently just tests the imu output and driving the motors.
+
 ## Current Features:
 - read acellerometer and gyrometer info from mpu6050 sensor
 - control stepper motor direction and speed
