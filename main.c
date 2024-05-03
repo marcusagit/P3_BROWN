@@ -116,17 +116,66 @@ int main() {
 
 
 
+    int counter = 0;
+    int dir = 1;
+    Stepper *motors[4] = {&motor_a, &motor_b, &motor_c, &motor_d};
     // rotate motor based on sensor values
     while(1){
         mpu6050_print_raw_values();
 
-        stepper_rotate(&motor_a, 360);
-        sleep_ms(500);
-        stepper_rotate(&motor_b, 360);
-        sleep_ms(500);
-        stepper_rotate(&motor_c, 360);
-        sleep_ms(500);
-        stepper_rotate(&motor_d, 360);
-        sleep_ms(500);
+#if 0
+        int i = counter % 4;
+        int j = (counter+2) % 4;
+        for(int x = 0; x < 2; x++){
+            stepper_step_no_delay(motors[i], dir);
+            stepper_step_no_delay(motors[j], dir);
+            sleep_ms(1);
+        }
+        sleep_ms(10);
+        stepper_stop(motors[i]);
+        stepper_stop(motors[j]);
+#endif
+#if 0
+        stepper_step_no_delay(&motor_a, dir);
+        stepper_step_no_delay(&motor_b, dir);
+        sleep_ms(10);
+        stepper_stop(&motor_a);
+        stepper_stop(&motor_b);
+        stepper_step_no_delay(&motor_c, dir);
+        stepper_step_no_delay(&motor_d, dir);
+        sleep_ms(10);
+        stepper_stop(&motor_c);
+        stepper_stop(&motor_d);
+#endif
+#if 0
+        stepper_step(&motor_a, dir);
+        stepper_step(&motor_b, dir);
+        stepper_step(&motor_c, dir);
+        stepper_step(&motor_d, dir);
+#endif
+#if 0
+        // runs at >2A when all motors run simultaneously
+        stepper_step_no_delay(&motor_a, dir);
+        stepper_step_no_delay(&motor_b, dir);
+        stepper_step_no_delay(&motor_c, dir);
+        stepper_step_no_delay(&motor_d, dir);
+        sleep_ms(2);
+#endif
+#if 1
+        stepper_rotate(&motor_a, 45);
+        stepper_rotate(&motor_b, 45);
+        stepper_rotate(&motor_c, 45);
+        stepper_rotate(&motor_d, 45);
+        counter += 44;
+#endif
+
+        counter++;
+        if (counter > 200){
+            dir = -1;
+        }
+        if (counter > 400){
+            break;
+        }
     }
+    reset_usb_boot(0,0);
 }
