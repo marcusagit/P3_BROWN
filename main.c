@@ -7,6 +7,59 @@
 #include "mpu6050.c"
 #include "stepper.c"
 
+/*
+
+component pin-out
+motor
+imu
+
+
+left side:
+GP0  | 01 UART0 TX
+GP1  | 02 UART0 RX
+GND  | 03 
+GP2  | 04 
+GP3  | 05 
+GP4  | 06 
+GP5  | 07 
+GND  | 08 
+GP6  | 09 MA_apwm
+GP7  | 10 MA_adir
+GP8  | 11 MA_bpwm
+GP9  | 12 MA_bdir
+GND  | 13 
+GP10 | 14 MB_apwm 
+GP11 | 15 MB_adir
+GP12 | 16 MB_bpwm
+GP13 | 17 MB_bdir
+GND  | 18 
+GP14 | 19 MD_apwm
+GP15 | 20 MD_adir
+
+right side:
+| VBUS    | 40 
+| VSYS    | 39 
+| GND     | 38 
+| 3V3_EN  | 37 
+| 3V3(OUT)| 36 
+| ADC_VREF| 35 
+| GP28    | 34 
+| GND     | 33 
+| GP27    | 32 
+| GP26    | 31 
+| RUN     | 30 
+| GP22    | 29 
+| GND     | 28 
+| GP21    | 27 MC_bdir
+| GP20    | 26 MC_bpwm
+| GP19    | 25 MC_adir
+| GP18    | 24 MC_apwm
+| GND     | 23 
+| GP17    | 22 MD_bpwm
+| GP16    | 21 MD_bdir
+
+
+*/
 
 int pico_w_led_on(){
     if (cyw43_arch_init()) {
@@ -31,17 +84,18 @@ int main() {
     // TODO: motor layout:
     
     // setup stepper pins, sensor pins
+    //
     Stepper motor_a = stepper_default();
-    motor_a.gpio_a_pwm = 9;
-    motor_a.gpio_a_dir = 8;
-    motor_a.gpio_b_pwm = 7;
-    motor_a.gpio_b_dir = 6;
+    motor_a.gpio_a_pwm = 6;
+    motor_a.gpio_a_dir = 7;
+    motor_a.gpio_b_pwm = 8;
+    motor_a.gpio_b_dir = 9;
     
     Stepper motor_b = stepper_default();
-    motor_b.gpio_a_pwm = 13;
-    motor_b.gpio_a_dir = 12;
-    motor_b.gpio_b_pwm = 11;
-    motor_b.gpio_b_dir = 10;
+    motor_b.gpio_a_pwm = 10;
+    motor_b.gpio_a_dir = 11;
+    motor_b.gpio_b_pwm = 12;
+    motor_b.gpio_b_dir = 13;
 
     Stepper motor_c = stepper_default();
     motor_c.gpio_a_pwm = 18;
@@ -65,6 +119,7 @@ int main() {
     // rotate motor based on sensor values
     while(1){
         mpu6050_print_raw_values();
+
         stepper_rotate(&motor_a, 360);
         sleep_ms(500);
         stepper_rotate(&motor_b, 360);
