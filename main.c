@@ -122,6 +122,7 @@ int main() {
     // rotate motor based on sensor values
     while(1){
         mpu6050_print_raw_values();
+        // TODO: May need to do acceleration and deceleration
 
 #if 0
         int i = counter % 4;
@@ -134,6 +135,31 @@ int main() {
         sleep_ms(10);
         stepper_stop(motors[i]);
         stepper_stop(motors[j]);
+#endif
+#if 1
+        // NOTE: Motor driver current limiting (Iout = 1.1 * Vref)
+        // after current limiting the the motors with Vref of 0.45
+        // (this should limit the motors to 0.5 Amps)
+        // 2 motors can run simultaneously now with a total amperage of 0.8 Amps (0.6 Amps for motors)
+        // TODO: also need to test it under load (may need to run it slower)
+        // TODO: Can I limit them further to allow simultaneous operation?
+        for(int a = 0; a < 5; a++){
+            stepper_step_no_delay(&motor_a, dir);
+            stepper_step_no_delay(&motor_b, dir);
+            sleep_ms(2);
+        }
+        sleep_ms(20);
+        stepper_stop(&motor_a);
+        stepper_stop(&motor_b);
+
+        for(int a = 0; a < 5; a++){
+            stepper_step_no_delay(&motor_c, dir);
+            stepper_step_no_delay(&motor_d, dir);
+            sleep_ms(2);
+        }
+        sleep_ms(20);
+        stepper_stop(&motor_c);
+        stepper_stop(&motor_d);
 #endif
 #if 0
         stepper_step_no_delay(&motor_a, dir);
@@ -148,6 +174,7 @@ int main() {
         stepper_stop(&motor_d);
 #endif
 #if 0
+        // does the same as no delay because the motors are not being stopped
         stepper_step(&motor_a, dir);
         stepper_step(&motor_b, dir);
         stepper_step(&motor_c, dir);
@@ -161,7 +188,7 @@ int main() {
         stepper_step_no_delay(&motor_d, dir);
         sleep_ms(2);
 #endif
-#if 1
+#if 0
         stepper_rotate(&motor_a, 45);
         stepper_rotate(&motor_b, 45);
         stepper_rotate(&motor_c, 45);
